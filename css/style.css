@@ -1,0 +1,14 @@
+td {
+    border-left: solid 1px grey;
+    border-right: solid 1px grey;
+}
+
+thead {
+    border-top: solid 1px grey;
+    border-bottom: solid 1px grey;
+}
+
+#ocultar,
+#ocultar2 {
+    display: none;
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MM | Métodos Matemáticos</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Image and text -->
+    <nav class="navbar navbar-light bg-dark">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <h1 class="navbar-brand text-light">Métodos Matemáticos</h1>
+                <span class="ml-2 mr-2">|</span>
+                <span class="text-light">Mínimos cuadrados</span>
+            </li>
+        </ul>
+    </nav>
+    <div class="jumbotron">
+        <h1 class="display-4">Hola!</h1>
+        <p class="lead">En esta webApp puedes hacer interpolaciones con diferentes métodos matemáticos.</p>
+        <hr class="my-4">
+        <p>Autores: <br> Daniel Mateus Ovalle <br> Paula Moreno Plazas <br> Felipe Rondon </p>
+    </div>
+    <div class="row col-md-10 mx-auto">
+        <form>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Ingrese el numero de datos que vas a ingresar:</label>
+                <input type="number" class="form-control" id="numDatos" placeholder="example (10)">
+                <small min="2" class="form-text text-muted">Ingresa mínimo 2 datos.</small>
+            </div>
+            <div class="row d-flex flex-row-reverse mr-1">
+                <button onclick="document.getElementById('ocultar2').style.display = 'block'" type="button" class="btn btn-primary">Validar Datos</button>
+            </div>
+        </form>
+    </div>
+    <div id="ocultar2" class="row col-md-10 mx-auto">
+        <form class="col-md-10">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Datos X</label>
+                <input type="text" class="form-control" id="dx1" placeholder="example 1,2,3,4,5,6,7,8,9,10" required>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Datos Y</label>
+                <input type="text" class="form-control" id="dy1" placeholder="example 1,2,3,4,5,6,7,8,9,10" required>
+            </div>
+            <div class="row d-flex flex-row-reverse col-md-12">
+                <button onclick="crearGrafica(document.getElementById('dx1').value, document.getElementById('dy1').value, document.getElementById('numDatos').value)" type="button" class="btn btn-primary">Cargar Datos</button>
+            </div>
+        </form>
+    </div>
+    <div id="ocultar" class="row mx-auto">
+        <div class="row col-md-10 mx-auto">
+            <h1 class="col-md-10 mx-auto">Datos Ingresados</h1>
+            <div class="row mx-auto">
+                <table class="table">
+                    <thead>
+                        <tr id="rowChartX"></tr>
+                    </thead>
+                    <thead>
+                        <tr id="rowChartY"></tr>
+                    </thead>
+                </table>
+            </div>
+            <h1 class="col-md-12 mx-auto">Gráfica de datos ingresados</h1>
+            <div class="row col-md-12 mx-auto">
+                <div class="col-md-12">
+                    <canvas id="line-chart" width="100%"></canvas>
+                </div>
+            </div>
+        </div>
+        <h1 class="col-md-10 mx-auto">Tabla de datos para minimos cuadrados</h1>
+        <div class="row col-md-10 mx-auto">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>X</td>
+                        <td>Y</td>
+                        <td>X^2</td>
+                        <td>X^3</td>
+                        <td>X^4</td>
+                        <td>XY</td>
+                        <td>(X^2)Y</td>
+                    </tr>
+                </thead>
+                <thead id="tablaMinimos">
+                </thead>
+                <thead>
+                    <tr id="tablaSumas"></tr>
+                </thead>
+            </table>
+        </div>
+        <h1 class="col-md-10 mx-auto">Ingrese el valor de x en el cual quiere interpolar</h1>
+        <div class="row col-md-10 mx-auto">
+            <form class="col-md-10">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Valor a interpolar de x</label>
+                    <input type="text" class="form-control" id="valorInterpolar" placeholder="example 5.4" required>
+                </div>
+                <div class="row d-flex flex-row-reverse col-md-12">
+                    <button onclick="calcInterpol(document.getElementById('valorInterpolar').value)" type="button" class="btn btn-primary">Cargar Datos</button>
+                </div>
+            </form>
+            <div class="col-md-12" id="interpolacionesCalculadas">
+
+            </div>
+        </div>
+        <h1 class="col-md-10 mx-auto">Función Lineal:</h1>
+        <div id="contLineal" class="row col-md-10 mx-auto">
+        </div>
+        <h1 class="col-md-10 mx-auto">Polinomio de grado 2</h1>
+        <div id="contPolinomio" class="row col-md-10 mx-auto">
+        </div>
+        <div id="contPolinomioR" class="row col-md-10 mx-auto">
+        </div>
+        <div class="row col-md-10 mx-auto">
+            <canvas id="line-chart2" width="100%"></canvas>
+        </div>
+    </div>
+    <!--js-->
+    <script src="./js/index.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2/dist/Chart.min.js"></script>
+</body>
+
+</html>
